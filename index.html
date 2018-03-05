@@ -119,7 +119,7 @@
             $("#button-b").text(questions[qNum]["b"]["answer"]).attr("data-answr", questions[qNum]["b"]["isCorrect"]);
             $("#button-c").text(questions[qNum]["c"]["answer"]).attr("data-answr", questions[qNum]["c"]["isCorrect"]);
             $("#button-d").text(questions[qNum]["d"]["answer"]).attr("data-answr", questions[qNum]["d"]["isCorrect"]);
-            // for(i=1;1<5;i++){
+            
             if (questions[qNum]["a"]["isCorrect"] == true) {
                 correctAnswer = questions[qNum]["a"]["answer"];
                 console.log(correctAnswer);
@@ -136,7 +136,7 @@
                 correctAnswer = questions[qNum]["d"]["answer"];
                 console.log(correctAnswer);
             }
-            // }
+            
             qNum++;
         }
         function timer() {
@@ -186,43 +186,7 @@
         $(".dif-hard").click(function () {
             $(".btn-difficulty").text("Hard");
         });
-        // If ran this way the ajax call goes throught fine, but if I comment out the call below and uncomment the one 
-        // insisde the click handler (which is written exactly the same) I get an error that "ajax is not a 
-        // function" I need it to call ajax inside the click handler becase first I am gathering info for the 
-        // custom URL query. 
-
-        // this is what I plan to put in the url spot once its working in order to give me what I need
-        // "https://opentdb.com/api.php?amount=10&category="+category+"&difficulty="+difficulty+"&type=multiple"
-
-        // If it call before I have that user info set it wont respond with what I need. am I going at 
-        // this the wrong way?
         
-        // $.ajax({
-        //     url: "https://opentdb.com/api.php?amount=10&category=20&difficulty=medium&type=multiple",
-        //     method: "GET"
-        // }).then(function (response) {
-        //     console.log(response);
-        //     function getQuestions(){
-        //     for(i=0;i<qAmt;i++){
-
-        //         var order=Math.floor(Math.random()*4+1)
-        //         if (order==1){
-        //         questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": true,"answer": response.results[i].correct_answer},"b":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"c":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"d":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]}};
-        //         }
-        //         if (order==2){
-        //         questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"b":{"isCorrect": true,"answer": response.results[i].correct_answer},"c":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"d":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]}};
-        //         }
-        //         if (order==3){
-        //         questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"b":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"c":{"isCorrect": true,"answer": response.results[i].correct_answer},"d":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]}};
-        //         }
-        //         if (order==4){
-        //         questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"b":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"c":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]},"d":{"isCorrect": true,"answer": response.results[i].correct_answer}};
-        //         }
-        //     }
-        // }   
-        // getQuestions();
-        // console.log(questions);
-        // });
 
         document.getElementById("start").onclick = function () {
             if (gameOver == false) {
@@ -236,6 +200,7 @@
                         function getQuestions() {
                             for (i = 0; i < qAmt; i++) {
 
+                                
                                 var order = Math.floor(Math.random() * 4 + 1)
                                 if (order == 1) {
                                     questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": true, "answer": response.results[i].correct_answer }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
@@ -264,6 +229,7 @@
                     gameTimer = setInterval(timer, 1000);
                     $("#start").hide();
                     $("#choices").show();
+                    console.log(questions);
                     setQuestion();
                     $(".btn-category").hide();
                     $(".btn-difficulty").hide();
@@ -309,8 +275,7 @@
     </script>
 
     <!-- bootstrap js -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
