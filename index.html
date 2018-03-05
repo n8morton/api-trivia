@@ -34,7 +34,9 @@
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item cat-general" href="#">General Knowledge</a>
+                                <a class="dropdown-item cat-movies" href="#">Movies</a>
                                 <a class="dropdown-item cat-sports" href="#">Sports</a>
+                                <a class="dropdown-item cat-movies" href="#">Music</a>
                                 <a class="dropdown-item cat-myth" href="#">Mythology</a>
 
                             </div>
@@ -95,7 +97,7 @@
         var buttonB = $("<button id=button-b class='buttons btn btn-primary'>");
         var buttonC = $("<button id=button-c class='buttons btn btn-primary'>");
         var buttonD = $("<button id=button-d class='buttons btn btn-primary'>");
-        var questions = []
+        var questions = [];
         var gameTimer;
         var timeLeft = 10;
         var qNum = 0;
@@ -104,10 +106,10 @@
         var gameOver = false;
         var correctAnswer;
         var playerName;
-        var gameStarted = false
-        var category
-        var difficulty
-        qAmt = 10;
+        var gameStarted = false;
+        var category;
+        var difficulty;
+        var qAmt = 7;
         // set functions
         // function getPlayerName() {
         // playerName = prompt("Please enter your name", "Robert Paulson");
@@ -119,7 +121,7 @@
             $("#button-b").text(questions[qNum]["b"]["answer"]).attr("data-answr", questions[qNum]["b"]["isCorrect"]);
             $("#button-c").text(questions[qNum]["c"]["answer"]).attr("data-answr", questions[qNum]["c"]["isCorrect"]);
             $("#button-d").text(questions[qNum]["d"]["answer"]).attr("data-answr", questions[qNum]["d"]["isCorrect"]);
-            
+
             if (questions[qNum]["a"]["isCorrect"] == true) {
                 correctAnswer = questions[qNum]["a"]["answer"];
                 console.log(correctAnswer);
@@ -136,7 +138,7 @@
                 correctAnswer = questions[qNum]["d"]["answer"];
                 console.log(correctAnswer);
             }
-            
+
             qNum++;
         }
         function timer() {
@@ -154,11 +156,17 @@
         }
         function resetGame() {
             gameOver = false;
+            gameStarted = false;
             qNum = 0
             numCorrect = 0;
             score = 0;
             $("#start").text("Start");
-            $("#question").text("Click Button to Start! Good Luck")
+            $("#question-header").text("Please Select Your Category and Dificulty")
+            $("#question").text("");
+            $(".btn-category").show();
+            $(".btn-difficulty").show();
+            $("#score").text("Score:0")
+
         }
         // getPlayerName();
         // $("#player-name").text("Player: " + playerName)
@@ -166,41 +174,53 @@
         // select category
         $(".cat-general").click(function () {
             $(".btn-category").text("General Knowledge");
-            catergory = "9";
+            category = "9";
+        });
+        $(".cat-movies").click(function () {
+            $(".btn-category").text("Movies");
+            category = "11";
+        });
+        $(".cat-music").click(function () {
+            $(".btn-category").text("Music");
+            category = "12";
         });
         $(".cat-sports").click(function () {
             $(".btn-category").text("Sports");
-            catergory = "21";
+            category = "21";
         });
         $(".cat-myth").click(function () {
             $(".btn-category").text("Mythology");
-            catergory = "20";
+            category = "20";
         });
         // select dificulty
         $(".dif-easy").click(function () {
             $(".btn-difficulty").text("Easy");
+            difficulty="easy";
         });
         $(".dif-medium").click(function () {
             $(".btn-difficulty").text("Medium");
+            difficulty="medium";
         });
         $(".dif-hard").click(function () {
             $(".btn-difficulty").text("Hard");
+            difficulty="hard";
+            console.log(difficulty);
         });
-        
+
 
         document.getElementById("start").onclick = function () {
             if (gameOver == false) {
                 if (gameStarted == false) {
 
                     $.ajax({
-                        url: "https://opentdb.com/api.php?amount=10&category=20&difficulty=medium&type=multiple",
+                        url: "https://opentdb.com/api.php?amount=10&category="+category+"&difficulty="+difficulty+"&type=multiple",
                         method: "GET"
                     }).then(function (response) {
                         console.log(response);
                         function getQuestions() {
                             for (i = 0; i < qAmt; i++) {
 
-                                
+
                                 var order = Math.floor(Math.random() * 4 + 1)
                                 if (order == 1) {
                                     questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": true, "answer": response.results[i].correct_answer }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
@@ -218,27 +238,34 @@
                         }
                         getQuestions();
                         console.log(questions);
+
                     });
 
-
-
-                    gameStarted = true;
-                }
-                if (qNum < 10) {
-                    $("#time-div").text("Question Time:10").show();
-                    gameTimer = setInterval(timer, 1000);
-                    $("#start").hide();
-                    $("#choices").show();
-                    console.log(questions);
-                    setQuestion();
                     $(".btn-category").hide();
                     $(".btn-difficulty").hide();
+                    $("#start").text("Start!");
+                    $("#question-header").text("Category And Difficulty Set! Get Ready...");
+                    $("#question").text("You Will Have 10 Seconds To Answer Each Question...Click To Start!")
+
+                    gameStarted = true;
                 } else {
-                    $("#question").text("Great Job! You got " + numCorrect + " correct out of 10!");
-                    $("#question-header").text("Thanks for playing!");
-                    gameOver = true;
-                    $("#start").text("Play Again?");
-                };
+                    if (qNum < qAmt) {
+                        $("#time-div").text("Question Time:10").show();
+                        gameTimer = setInterval(timer, 1000);
+                        $("#start").hide();
+                        $("#choices").show();
+                        console.log(questions);
+                        setQuestion();
+                        $("#score").text("Score:0")
+                        
+                    } else {
+                        $("#question").text("Great Job! You got " + numCorrect + " correct out of 7!");
+                        $("#question-header").text("Thanks for playing!");
+                        gameOver = true;
+                        
+                        $("#start").text("Play Again?");
+                    }
+                }
             } else {
                 resetGame();
             }
@@ -265,7 +292,7 @@
                     $("#score").text("Score:" + score);
                 }
             }
-            if (qNum < 10) {
+            if (qNum < qAmt) {
                 $("#start").text("Next Question").show();
             } else {
                 $("#start").text("Finish!").show();
@@ -275,7 +302,7 @@
     </script>
 
     <!-- bootstrap js -->
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
