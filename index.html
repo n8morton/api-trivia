@@ -116,11 +116,11 @@
         // }
         function setQuestion() {
             $("#question-header").text("Question#" + (qNum + 1));
-            $("#question").text(questions[qNum]["q"]["question"]);
-            $("#button-a").text(questions[qNum]["a"]["answer"]).attr("data-answr", questions[qNum]["a"]["isCorrect"]);
-            $("#button-b").text(questions[qNum]["b"]["answer"]).attr("data-answr", questions[qNum]["b"]["isCorrect"]);
-            $("#button-c").text(questions[qNum]["c"]["answer"]).attr("data-answr", questions[qNum]["c"]["isCorrect"]);
-            $("#button-d").text(questions[qNum]["d"]["answer"]).attr("data-answr", questions[qNum]["d"]["isCorrect"]);
+            $("#question").html(questions[qNum]["q"]["question"]);
+            $("#button-a").html(questions[qNum]["a"]["answer"]).attr("data-answr", questions[qNum]["a"]["isCorrect"]);
+            $("#button-b").html(questions[qNum]["b"]["answer"]).attr("data-answr", questions[qNum]["b"]["isCorrect"]);
+            $("#button-c").html(questions[qNum]["c"]["answer"]).attr("data-answr", questions[qNum]["c"]["isCorrect"]);
+            $("#button-d").html(questions[qNum]["d"]["answer"]).attr("data-answr", questions[qNum]["d"]["isCorrect"]);
 
             if (questions[qNum]["a"]["isCorrect"] == true) {
                 correctAnswer = questions[qNum]["a"]["answer"];
@@ -223,16 +223,16 @@
 
                                 var order = Math.floor(Math.random() * 4 + 1)
                                 if (order == 1) {
-                                    questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": true, "answer": response.results[i].correct_answer }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
+                                    questions[i] = { "q": { "question": (response.results[i].question) }, "a": { "isCorrect": true, "answer": response.results[i].correct_answer }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
                                 }
                                 if (order == 2) {
-                                    questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "b": { "isCorrect": true, "answer": response.results[i].correct_answer }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
+                                    questions[i] = { "q": { "question": (response.results[i].question) }, "a": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "b": { "isCorrect": true, "answer": response.results[i].correct_answer }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
                                 }
                                 if (order == 3) {
-                                    questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "c": { "isCorrect": true, "answer": response.results[i].correct_answer }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
+                                    questions[i] = { "q": { "question": (response.results[i].question) }, "a": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "c": { "isCorrect": true, "answer": response.results[i].correct_answer }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
                                 }
                                 if (order == 4) {
-                                    questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] }, "d": { "isCorrect": true, "answer": response.results[i].correct_answer } };
+                                    questions[i] = { "q": { "question": (response.results[i].question) }, "a": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] }, "d": { "isCorrect": true, "answer": response.results[i].correct_answer } };
                                 }
                             }
                         }
