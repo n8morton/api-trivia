@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+
+    </div>
+
+    <div class="container-fluid">
+        <div class=row>
+            <div class="col-md-3"></div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div id="question-header" class="card-header">
+                        Please Select Your Category and Dificulty
+                    </div>
+                    <div class="card-body">
+                        <h5 id="question" class="card-title"></h5>
+                        <div class="btn-group selection-btn">
+                            <button type="button" class="btn btn-primary dropdown-toggle btn-category" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Category
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item cat-general" href="#">General Knowledge</a>
+                                <a class="dropdown-item cat-sports" href="#">Sports</a>
+                                <a class="dropdown-item cat-myth" href="#">Mythology</a>
+
+                            </div>
+                        </div>
+                        <div class="btn-group selection-btn">
+                            <button type="button" class="btn btn-primary dropdown-toggle btn-dificulty" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dificulty
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item dif-easy" href="#">Easy</a>
+                                <a class="dropdown-item dif-medium" href="#">Medium</a>
+                                <a class="dropdown-item dif-hard" href="#">Hard</a>
+
+                            </div>
+                        </div>
+                        <p class="card-text"></p>
+                        <span id="time-div"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class=row>
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div id="player-name" class="card-header">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Please Enter Your Name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="choices">
+
+                        </div>
+
+                        <button id="start" class="btn btn-primary">
+                            Submit
+                        </button>
+
+                        <div id="score">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+    <script>
+
+        var buttonA = $("<button id=button-a class='buttons btn btn-primary'>");
+        var buttonB = $("<button id=button-b class='buttons btn btn-primary'>");
+        var buttonC = $("<button id=button-c class='buttons btn btn-primary'>");
+        var buttonD = $("<button id=button-d class='buttons btn btn-primary'>");
+
+        var questions = []
+
+
+        var gameTimer;
+        var timeLeft = 10;
+        var qNum = 0;
+        var score = 0;
+        var numCorrect = 0;
+        var gameOver = false;
+        var correctAnswer;
+        var playerName;
+        var gameStarted = false
+        var category
+        var difficulty
+
+
+
+
+        // set functions
+        // function getPlayerName() {
+        // playerName = prompt("Please enter your name", "Robert Paulson");
+        // }
+
+        function setQuestion() {
+            $("#question-header").text("Question#" + (qNum + 1));
+            $("#question").text(questions[qNum]["q"]["question"]);
+            $("#button-a").text(questions[qNum]["a"]["answer"]).attr("data-answr", questions[qNum]["a"]["isCorrect"]);
+            $("#button-b").text(questions[qNum]["b"]["answer"]).attr("data-answr", questions[qNum]["b"]["isCorrect"]);
+            $("#button-c").text(questions[qNum]["c"]["answer"]).attr("data-answr", questions[qNum]["c"]["isCorrect"]);
+            $("#button-d").text(questions[qNum]["d"]["answer"]).attr("data-answr", questions[qNum]["d"]["isCorrect"]);
+
+            // for(i=1;1<5;i++){
+            if (questions[qNum]["a"]["isCorrect"] == true) {
+                correctAnswer = questions[qNum]["a"]["answer"];
+                console.log(correctAnswer);
+            }
+            if (questions[qNum]["b"]["isCorrect"] == true) {
+                correctAnswer = questions[qNum]["b"]["answer"];
+                console.log(correctAnswer);
+            }
+            if (questions[qNum]["c"]["isCorrect"] == true) {
+                correctAnswer = questions[qNum]["c"]["answer"];
+                console.log(correctAnswer);
+            }
+            if (questions[qNum]["d"]["isCorrect"] == true) {
+                correctAnswer = questions[qNum]["d"]["answer"];
+                console.log(correctAnswer);
+            }
+            // }
+            qNum++;
+
+        }
+
+        function timer() {
+            document.getElementById("time-div").innerHTML = "Question Time:" + timeLeft;
+            if (timeLeft == 0) {
+                $("#question").text("Time Up! The Correct Answer Was '" + correctAnswer + "'");
+                clearInterval(gameTimer);
+                timeLeft = 10;
+                document.getElementById("time-div").innerHTML = timeLeft;
+                $("#time-div").hide();
+                $("#start").text("Next Question").show();
+                $("#choices").hide();
+            }
+            timeLeft--
+        }
+
+        function resetGame() {
+            gameOver = false;
+            qNum = 0
+            numCorrect = 0;
+            score = 0;
+            $("#start").text("Start");
+            $("#question").text("Click Button to Start! Good Luck")
+        }
+
+
+        // getPlayerName();
+        // $("#player-name").text("Player: " + playerName)
+
+        $("#choices").append(buttonA, buttonB, buttonC, buttonD).hide();
+
+        // select category
+        $(".cat-general").click(function () {
+            $(".btn-category").text("General Knowledge");
+            catergory = "9";
+        });
+        $(".cat-sports").click(function () {
+            $(".btn-category").text("Sports");
+            catergory = "21";
+        });
+        $(".cat-myth").click(function () {
+            $(".btn-category").text("Mythology");
+            catergory = "20";
+        });
+
+        // select dificulty
+        $(".dif-easy").click(function () {
+            $(".btn-dificulty").text("Easy");
+        });
+        $(".dif-medium").click(function () {
+            $(".btn-dificulty").text("Medium");
+        });
+        $(".dif-hard").click(function () {
+            $(".btn-dificulty").text("Hard");
+        });
+
+    // If ran this way the ajax call goes throught fine, but if I comment out the call below and uncomment the one 
+    // insisde the click handler (which is written exactly the same) I get an error that "ajax is not a 
+    // function" I need it to call ajax inside the clciakc handler becase first I am gathering info for the 
+    // custom URL query. 
+        
+        // this is what I plan to put in the url spot once its working in order to give me what I ndeed
+        // "https://opentdb.com/api.php?amount=10&category="+category+"&difficulty="+difficulty+"&type=multiple"
+        
+    // If it call before I have that user info set it wont respond with what I need. am I going at 
+    // this the wrong way?
+
+        $.ajax({
+            url: "https://opentdb.com/api.php?amount=10&category=20&difficulty=medium&type=multiple",
+            method: "GET"
+        }).then(function (response) {
+            console.log(response);
+        });
+
+
+
+        document.getElementById("start").onclick = function () {
+            if (gameOver == false) {
+                if (gameStarted == false) {
+                    
+                    // $.ajax({
+                    //     url: "https://opentdb.com/api.php?amount=10&category=20&difficulty=medium&type=multiple",
+                    //     method: "GET"
+                    // }).then(function (response) {
+                    //     console.log(response);
+                    // });
+                    
+                    gameStarted = true;
+                }
+
+                if (qNum < 10) {
+                    $("#time-div").text("Question Time:10").show();
+                    gameTimer = setInterval(timer, 1000);
+                    $("#start").hide();
+                    $("#choices").show();
+
+                    setQuestion();
+
+                } else {
+                    $("#question").text("Great Job! You got " + numCorrect + " correct out of 10!");
+                    $("#question-header").text("Thanks for playing!");
+                    gameOver = true;
+                    $("#start").text("Play Again?");
+                };
+            } else {
+                resetGame();
+            }
+
+
+        };
+
+        $(".buttons").click(function () {
+            $("#choices").hide();
+            if ($(this).attr("data-answr") == "true") {
+                $("#question").text("Correct!");
+                clearInterval(gameTimer);
+                timeLeft = 10;
+                document.getElementById("time-div").innerHTML = timeLeft;
+                $("#time-div").hide();
+                score = (score + 10);
+                $("#score").text("Score:" + score);
+                numCorrect++;
+            } else {
+                $("#question").text("Incorrect...The Correct Answer Was '" + correctAnswer + "'");
+                clearInterval(gameTimer);
+                timeLeft = 10;
+                document.getElementById("time-div").innerHTML = timeLeft;
+                $("#time-div").hide();
+                if (score > 4) {
+                    score = (score - 5);
+                    $("#score").text("Score:" + score);
+
+                }
+            }
+
+            if (qNum < 10) {
+
+                $("#start").text("Next Question").show();
+            } else {
+                $("#start").text("Finish!").show();
+            }
+
+
+
+        });
+
+
+
+
+
+        $(".button").click()
+
+
+
+    </script>
+
+    <!-- bootstrap js -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
