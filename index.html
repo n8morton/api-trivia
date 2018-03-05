@@ -40,8 +40,8 @@
                             </div>
                         </div>
                         <div class="btn-group selection-btn">
-                            <button type="button" class="btn btn-primary dropdown-toggle btn-dificulty" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dificulty
+                            <button type="button" class="btn btn-primary dropdown-toggle btn-difficulty" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Difficulty
                             </button>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item dif-easy" href="#">Easy</a>
@@ -61,10 +61,10 @@
             <div class="col-md-6">
                 <div class="card">
                     <div id="player-name" class="card-header">
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Please Enter Your Name" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                        <!-- <div class="input-group mb-3"> -->
+                            <!-- <input type="text" class="form-control" placeholder="Please Enter Your Name" aria-label="Recipient's username" aria-describedby="basic-addon2"> -->
 
-                        </div>
+                        <!-- </div> -->
                     </div>
                     <div class="card-body">
                         <div id="choices">
@@ -90,15 +90,11 @@
 
 
     <script>
-
         var buttonA = $("<button id=button-a class='buttons btn btn-primary'>");
         var buttonB = $("<button id=button-b class='buttons btn btn-primary'>");
         var buttonC = $("<button id=button-c class='buttons btn btn-primary'>");
         var buttonD = $("<button id=button-d class='buttons btn btn-primary'>");
-
         var questions = []
-
-
         var gameTimer;
         var timeLeft = 10;
         var qNum = 0;
@@ -110,15 +106,11 @@
         var gameStarted = false
         var category
         var difficulty
-
-
-
-
+        qAmt=10;
         // set functions
         // function getPlayerName() {
         // playerName = prompt("Please enter your name", "Robert Paulson");
         // }
-
         function setQuestion() {
             $("#question-header").text("Question#" + (qNum + 1));
             $("#question").text(questions[qNum]["q"]["question"]);
@@ -126,7 +118,6 @@
             $("#button-b").text(questions[qNum]["b"]["answer"]).attr("data-answr", questions[qNum]["b"]["isCorrect"]);
             $("#button-c").text(questions[qNum]["c"]["answer"]).attr("data-answr", questions[qNum]["c"]["isCorrect"]);
             $("#button-d").text(questions[qNum]["d"]["answer"]).attr("data-answr", questions[qNum]["d"]["isCorrect"]);
-
             // for(i=1;1<5;i++){
             if (questions[qNum]["a"]["isCorrect"] == true) {
                 correctAnswer = questions[qNum]["a"]["answer"];
@@ -146,9 +137,7 @@
             }
             // }
             qNum++;
-
         }
-
         function timer() {
             document.getElementById("time-div").innerHTML = "Question Time:" + timeLeft;
             if (timeLeft == 0) {
@@ -162,7 +151,6 @@
             }
             timeLeft--
         }
-
         function resetGame() {
             gameOver = false;
             qNum = 0
@@ -171,13 +159,9 @@
             $("#start").text("Start");
             $("#question").text("Click Button to Start! Good Luck")
         }
-
-
         // getPlayerName();
         // $("#player-name").text("Player: " + playerName)
-
         $("#choices").append(buttonA, buttonB, buttonC, buttonD).hide();
-
         // select category
         $(".cat-general").click(function () {
             $(".btn-category").text("General Knowledge");
@@ -191,18 +175,16 @@
             $(".btn-category").text("Mythology");
             catergory = "20";
         });
-
         // select dificulty
         $(".dif-easy").click(function () {
-            $(".btn-dificulty").text("Easy");
+            $(".btn-difficulty").text("Easy");
         });
         $(".dif-medium").click(function () {
-            $(".btn-dificulty").text("Medium");
+            $(".btn-difficulty").text("Medium");
         });
         $(".dif-hard").click(function () {
-            $(".btn-dificulty").text("Hard");
+            $(".btn-difficulty").text("Hard");
         });
-
     // If ran this way the ajax call goes throught fine, but if I comment out the call below and uncomment the one 
     // insisde the click handler (which is written exactly the same) I get an error that "ajax is not a 
     // function" I need it to call ajax inside the clciakc handler becase first I am gathering info for the 
@@ -213,16 +195,32 @@
         
     // If it call before I have that user info set it wont respond with what I need. am I going at 
     // this the wrong way?
-
         $.ajax({
             url: "https://opentdb.com/api.php?amount=10&category=20&difficulty=medium&type=multiple",
             method: "GET"
         }).then(function (response) {
             console.log(response);
+            function getQuestions(){
+            for(i=0;i<qAmt;i++){
+        
+                var order=Math.floor(Math.random()*4+1)
+                if (order==1){
+                questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": true,"answer": response.results[i].correct_answer},"b":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"c":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"d":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]}};
+                }
+                if (order==2){
+                questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"b":{"isCorrect": true,"answer": response.results[i].correct_answer},"c":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"d":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]}};
+                }
+                if (order==3){
+                questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"b":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"c":{"isCorrect": true,"answer": response.results[i].correct_answer},"d":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]}};
+                }
+                if (order==4){
+                questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"b":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"c":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]},"d":{"isCorrect": true,"answer": response.results[i].correct_answer}};
+                }
+            }
+        }   
+        getQuestions();
+        console.log(questions);
         });
-
-
-
         document.getElementById("start").onclick = function () {
             if (gameOver == false) {
                 if (gameStarted == false) {
@@ -236,15 +234,14 @@
                     
                     gameStarted = true;
                 }
-
                 if (qNum < 10) {
                     $("#time-div").text("Question Time:10").show();
                     gameTimer = setInterval(timer, 1000);
                     $("#start").hide();
                     $("#choices").show();
-
                     setQuestion();
-
+                    $(".btn-category").hide();
+                    $(".btn-difficulty").hide();
                 } else {
                     $("#question").text("Great Job! You got " + numCorrect + " correct out of 10!");
                     $("#question-header").text("Thanks for playing!");
@@ -254,10 +251,7 @@
             } else {
                 resetGame();
             }
-
-
         };
-
         $(".buttons").click(function () {
             $("#choices").hide();
             if ($(this).attr("data-answr") == "true") {
@@ -278,29 +272,15 @@
                 if (score > 4) {
                     score = (score - 5);
                     $("#score").text("Score:" + score);
-
                 }
             }
-
             if (qNum < 10) {
-
                 $("#start").text("Next Question").show();
             } else {
                 $("#start").text("Finish!").show();
             }
-
-
-
         });
-
-
-
-
-
         $(".button").click()
-
-
-
     </script>
 
     <!-- bootstrap js -->
