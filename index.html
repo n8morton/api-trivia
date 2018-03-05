@@ -188,72 +188,72 @@
         });
         // If ran this way the ajax call goes throught fine, but if I comment out the call below and uncomment the one 
         // insisde the click handler (which is written exactly the same) I get an error that "ajax is not a 
-        // function" I need it to call ajax inside the clciakc handler becase first I am gathering info for the 
+        // function" I need it to call ajax inside the click handler becase first I am gathering info for the 
         // custom URL query. 
 
-        // this is what I plan to put in the url spot once its working in order to give me what I ndeed
+        // this is what I plan to put in the url spot once its working in order to give me what I need
         // "https://opentdb.com/api.php?amount=10&category="+category+"&difficulty="+difficulty+"&type=multiple"
 
         // If it call before I have that user info set it wont respond with what I need. am I going at 
         // this the wrong way?
         
-        $.ajax({
-            url: "https://opentdb.com/api.php?amount=10&category=20&difficulty=medium&type=multiple",
-            method: "GET"
-        }).then(function (response) {
-            console.log(response);
-            function getQuestions(){
-            for(i=0;i<qAmt;i++){
+        // $.ajax({
+        //     url: "https://opentdb.com/api.php?amount=10&category=20&difficulty=medium&type=multiple",
+        //     method: "GET"
+        // }).then(function (response) {
+        //     console.log(response);
+        //     function getQuestions(){
+        //     for(i=0;i<qAmt;i++){
 
-                var order=Math.floor(Math.random()*4+1)
-                if (order==1){
-                questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": true,"answer": response.results[i].correct_answer},"b":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"c":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"d":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]}};
-                }
-                if (order==2){
-                questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"b":{"isCorrect": true,"answer": response.results[i].correct_answer},"c":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"d":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]}};
-                }
-                if (order==3){
-                questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"b":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"c":{"isCorrect": true,"answer": response.results[i].correct_answer},"d":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]}};
-                }
-                if (order==4){
-                questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"b":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"c":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]},"d":{"isCorrect": true,"answer": response.results[i].correct_answer}};
-                }
-            }
-        }   
-        getQuestions();
-        console.log(questions);
-        });
+        //         var order=Math.floor(Math.random()*4+1)
+        //         if (order==1){
+        //         questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": true,"answer": response.results[i].correct_answer},"b":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"c":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"d":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]}};
+        //         }
+        //         if (order==2){
+        //         questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"b":{"isCorrect": true,"answer": response.results[i].correct_answer},"c":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"d":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]}};
+        //         }
+        //         if (order==3){
+        //         questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"b":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"c":{"isCorrect": true,"answer": response.results[i].correct_answer},"d":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]}};
+        //         }
+        //         if (order==4){
+        //         questions[i]={"q":{"question":response.results[i].question},"a":{"isCorrect": false,"answer": response.results[i].incorrect_answers[0]},"b":{"isCorrect": false,"answer": response.results[i].incorrect_answers[1]},"c":{"isCorrect": false,"answer": response.results[i].incorrect_answers[2]},"d":{"isCorrect": true,"answer": response.results[i].correct_answer}};
+        //         }
+        //     }
+        // }   
+        // getQuestions();
+        // console.log(questions);
+        // });
 
         document.getElementById("start").onclick = function () {
             if (gameOver == false) {
                 if (gameStarted == false) {
 
-                    // $.ajax({
-                    //     url: "https://opentdb.com/api.php?amount=10&category=20&difficulty=medium&type=multiple",
-                    //     method: "GET"
-                    // }).then(function (response) {
-                    //     console.log(response);
-                    //     function getQuestions() {
-                    //         for (i = 0; i < qAmt; i++) {
+                    $.ajax({
+                        url: "https://opentdb.com/api.php?amount=10&category=20&difficulty=medium&type=multiple",
+                        method: "GET"
+                    }).then(function (response) {
+                        console.log(response);
+                        function getQuestions() {
+                            for (i = 0; i < qAmt; i++) {
 
-                    //             var order = Math.floor(Math.random() * 4 + 1)
-                    //             if (order == 1) {
-                    //                 questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": true, "answer": response.results[i].correct_answer }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
-                    //             }
-                    //             if (order == 2) {
-                    //                 questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "b": { "isCorrect": true, "answer": response.results[i].correct_answer }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
-                    //             }
-                    //             if (order == 3) {
-                    //                 questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "c": { "isCorrect": true, "answer": response.results[i].correct_answer }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
-                    //             }
-                    //             if (order == 4) {
-                    //                 questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] }, "d": { "isCorrect": true, "answer": response.results[i].correct_answer } };
-                    //             }
-                    //         }
-                    //     }
-                    //     getQuestions();
-                    //     console.log(questions);
-                    // });
+                                var order = Math.floor(Math.random() * 4 + 1)
+                                if (order == 1) {
+                                    questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": true, "answer": response.results[i].correct_answer }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
+                                }
+                                if (order == 2) {
+                                    questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "b": { "isCorrect": true, "answer": response.results[i].correct_answer }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
+                                }
+                                if (order == 3) {
+                                    questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "c": { "isCorrect": true, "answer": response.results[i].correct_answer }, "d": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] } };
+                                }
+                                if (order == 4) {
+                                    questions[i] = { "q": { "question": response.results[i].question }, "a": { "isCorrect": false, "answer": response.results[i].incorrect_answers[0] }, "b": { "isCorrect": false, "answer": response.results[i].incorrect_answers[1] }, "c": { "isCorrect": false, "answer": response.results[i].incorrect_answers[2] }, "d": { "isCorrect": true, "answer": response.results[i].correct_answer } };
+                                }
+                            }
+                        }
+                        getQuestions();
+                        console.log(questions);
+                    });
 
 
 
